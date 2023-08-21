@@ -6,7 +6,7 @@ export default async function Home({ searchParams }: { searchParams: any }) {
     let url
 
     if (genre === 'fetchAll') {
-        url = 'https://fakestoreapi.com/products'
+        url = 'https://fakestoreapi.com/products?sort=desc'
     } else if (genre === 'fetchKadin') {
         url = "https://fakestoreapi.com/products/category/women's%20clothing"
     } else if (genre === 'fetchErkek') {

@@ -10,7 +10,9 @@ export default function LogoLogin() {
         <PaddingContainer>
             <div className='flex items-center justify-between mt-10'>
                 <div className='relative w-8 h-8 md:w-14 md:h-14'>
-                    <Image src='/logo.png' fill alt='logo' />
+                    <Link href='/'>
+                        <Image src='/logo.png' fill alt='logo' />
+                    </Link>
                 </div>
                 <SearchBar />
                 <ul className='flex items-center gap-2 md:gap-8'>

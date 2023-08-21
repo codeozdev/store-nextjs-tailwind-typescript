@@ -4,7 +4,7 @@ import NavigationItem from './navigation-item'
 export default function Navigation() {
     return (
         <PaddingContainer>
-            <nav className='mt-7 flex items-center gap-2 md:gap-5 font-medium text-sm'>
+            <nav className='my-7 flex items-center gap-2 md:gap-5 font-medium text-sm'>
                 <NavigationItem title='All' param='fetchAll' />
                 <NavigationItem title='Kadın' param='fetchKadin' />
                 <NavigationItem title='Erkek' param='fetchErkek' />

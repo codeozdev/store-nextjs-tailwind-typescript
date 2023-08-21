@@ -31,6 +31,7 @@ export default async function ProductPage({ params: { id } }: Props) {
                             <p className='text-xs md:text-sm'>
                                 {product.description}
                             </p>
+                            <p className='text-xs text-red-400 mt-2'>count: {product.rating.count}</p>
                         </div>
                     </div>
                 </div>
