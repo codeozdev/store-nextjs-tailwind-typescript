@@ -1,4 +1,7 @@
+import PaddingContainer from '@/components/layout/padding-container'
 import ProductImage from '@/components/post/product-image'
+import ProductPrice from '@/components/post/product-price'
+import { notFound } from 'next/navigation'
 
 interface Props {
     params: {
@@ -7,12 +10,39 @@ interface Props {
 }
 
 export default async function ProductPage({ params: { id } }: Props) {
-    const res = await fetch(`https://fakestoreapi.com/products/${id}`)
-    const product: Product = await res.json()
+    try {
+        const res = await fetch(`https://fakestoreapi.com/products/${id}`)
+        const product: Product = await res.json()
 
-    return (
-        <div>
-            <ProductImage product={product} />
-        </div>
-    )
+        return (
+            <PaddingContainer>
+                <div className='flex flex-col md:flex-row items-center gap-8 my-10 md:mt-36'>
+                    <ProductImage product={product} />
+
+                    <div className='divide-y'>
+                        <div className='space-y-2 pb-8'>
+                            <h1 className='font-bold text-sm md:text-2xl md:truncate'>
+                                {product.title}
+                            </h1>
+                            <ProductPrice product={product} />
+                        </div>
+
+                        <div className='pt-8'>
+                            <p className='text-xs md:text-sm'>
+                                {product.description}
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </PaddingContainer>
+        )
+    } catch {
+        notFound()
+    }
 }
+
+// useEffect(() => {
+//     setTotal(
+//       quantitiy * (options ? price + options[selected].additionalPrice : price) // eğer medium veya large secerse fiyati 4 veya 6 dolar artar yoksa sabit fiyat
+//     )
+//   }, [quantitiy, selected, options, price])
