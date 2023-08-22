@@ -1,8 +1,31 @@
+'use client'
+
 import PaddingContainer from '@/components/layout/padding-container'
 import Image from 'next/image'
 import { AiFillFacebook, AiFillGoogleCircle } from 'react-icons/ai'
 
+import { useAuth } from '@/context/AuthContext'
+import React, { useEffect } from 'react'
+import { useRouter } from 'next/navigation'
+
 export default function Giris() {
+    const { googleSignIn, user } = useAuth()
+    const router = useRouter()
+
+    const handleGoogleSignIn = async () => {
+        try {
+            await googleSignIn()
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
+    useEffect(() => {
+        if (user != null) {
+            router.push('/account')
+        }
+    }, [user, router])
+
     return (
         <PaddingContainer>
             <>
@@ -93,7 +116,9 @@ export default function Giris() {
                                     />
                                     <p>Facebook</p>
                                 </button>
-                                <button className='flex items-center gap-2 border p-2 flex-1 rounded'>
+                                <button
+                                    className='flex items-center gap-2 border p-2 flex-1 rounded'
+                                    onClick={handleGoogleSignIn}>
                                     <AiFillGoogleCircle
                                         size={30}
                                         className='fill-red-600'
