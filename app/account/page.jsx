@@ -3,11 +3,9 @@
 import PaddingContainer from '@/components/layout/padding-container'
 import { useAuth } from '@/context/AuthContext'
 import Link from 'next/link'
-import { useRouter } from 'next/navigation'
 
 export default function Account() {
     const { user, logout } = useAuth()
-    const router = useRouter()
 
     const handleSignOut = async () => {
         try {

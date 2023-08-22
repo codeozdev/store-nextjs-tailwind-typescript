@@ -26,7 +26,7 @@ export default function LogoLogin() {
                 <ul className='flex items-center gap-2 md:gap-8'>
                     <li>
                         {user?.displayName ? (
-                            <p className='hover:text-red-600 hidden md:block md:w-[85px] text-center truncate'>{user?.displayName}</p>
+                            <Link href='/account' className='hover:text-red-600  md:block md:w-[85px] text-center truncate'>{user?.displayName}</Link>
                         ) : (
                             <Link
                                 href='/giris'

@@ -19,6 +19,7 @@ export const AuthContextProvider = ({ children }) => {
         signInWithPopup(auth, provider)
     }
 
+
     useEffect(() => {
         const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
             setUser(currentUser)
@@ -32,7 +33,8 @@ export const AuthContextProvider = ({ children }) => {
     }
 
     return (
-        <AuthContext.Provider value={{ googleSignIn, logout, user }}>
+        <AuthContext.Provider
+            value={{ googleSignIn, logout, user }}>
             {children}
         </AuthContext.Provider>
     )
