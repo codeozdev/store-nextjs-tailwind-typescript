@@ -28,16 +28,6 @@ export default function LogoLogin() {
                     </li>
                     <li>
                         <Link
-                            href='/favorilerim'
-                            className='flex items-center gap-2  hover:text-red-600'>
-                            <AiOutlineHeart />
-                            <p className='text-sm font-medium hidden md:block'>
-                                Favorilerim
-                            </p>
-                        </Link>
-                    </li>
-                    <li>
-                        <Link
                             href='/sepetim'
                             className='flex items-center gap-2  hover:text-red-600'>
                             <SlBasket />
