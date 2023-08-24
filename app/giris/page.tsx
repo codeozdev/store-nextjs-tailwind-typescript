@@ -5,11 +5,28 @@ import Image from 'next/image'
 import { AiFillFacebook, AiFillGoogleCircle } from 'react-icons/ai'
 
 import { useAuth } from '@/context/AuthContext'
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
 
+interface Props {
+    email: string
+    password: string
+}
+
+const defaultForm = {
+    email: '',
+    password: '',
+}
+
 export default function Giris() {
-    const { googleSignIn, user } = useAuth()
+    const [formField, setFormField] = useState(defaultForm)
+    const { email, password } = formField
+
+    const resetFormFields = () => {
+        setFormField(defaultForm)
+    }
+
+    const { googleSignIn, user, createUser } = useAuth()
     const router = useRouter()
 
     const handleGoogleSignIn = async () => {
@@ -18,6 +35,23 @@ export default function Giris() {
         } catch (error) {
             console.log(error)
         }
+    }
+
+    const handleSbutmit = async (e: any) => {
+        e.preventDefault()
+
+        try {
+            await createUser(email, password)
+            resetFormFields()
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
+    const handleChange = (e: any) => {
+        const { name, value } = e.target
+
+        setFormField({ ...formField, [name]: value })
     }
 
     useEffect(() => {
@@ -44,7 +78,7 @@ export default function Giris() {
                     </div>
 
                     <div className='mt-10 sm:mx-auto sm:w-full sm:max-w-sm'>
-                        <form className='space-y-6' action='#' method='POST'>
+                        <form className='space-y-6' onSubmit={handleSbutmit}>
                             <div>
                                 <label
                                     htmlFor='email'
@@ -56,8 +90,9 @@ export default function Giris() {
                                         id='email'
                                         name='email'
                                         type='email'
-                                        autoComplete='email'
+                                        value={email}
                                         required
+                                        onChange={handleChange}
                                         className='block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6'
                                     />
                                 </div>
@@ -83,8 +118,9 @@ export default function Giris() {
                                         id='password'
                                         name='password'
                                         type='password'
-                                        autoComplete='current-password'
+                                        value={password}
                                         required
+                                        onChange={handleChange}
                                         className='block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6'
                                     />
                                 </div>
