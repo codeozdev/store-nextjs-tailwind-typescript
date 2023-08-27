@@ -3,17 +3,28 @@
 import PaddingContainer from '@/components/layout/padding-container'
 import { useAuth } from '@/context/AuthContext'
 import Link from 'next/link'
+import { useEffect } from 'react'
+import { toast } from 'react-toastify'
+import { useRouter } from 'next/navigation'
 
 export default function Account() {
   const { user, logout } = useAuth()
+  const router = useRouter()
 
   const handleSignOut = async () => {
     try {
       await logout()
+      toast.success('Logout success')
     } catch (err) {
-      console.log(err)
+      toast.error(err.message)
     }
   }
+
+  useEffect(() => {
+    if (!user === null) {
+      router.push('/')
+    }
+  })
 
   return (
     <PaddingContainer>
@@ -27,18 +38,17 @@ export default function Account() {
             Email: <span className='text-black'>{user?.email}</span>
           </p>
           <p className='font-semibold text-red-500'>
-            Last Login:{' '}
-            <span className='text-black'>{user?.metadata.lastSignInTime}</span>
+            Last Login: <span className='text-black'>{user?.metadata.lastSignInTime}</span>
           </p>
           <p className='font-semibold text-red-500'>
-            Phone:{' '}
-            <span className='text-black'>{user?.metadata.phoneNumber}</span>
+            Phone: <span className='text-black'>{user?.metadata.phoneNumber}</span>
           </p>
         </div>
         <Link href='/'>
           <button
             onClick={handleSignOut}
-            className='px-2 py-1 bg-red-500 rounded-lg text-white font-medium'>
+            className='px-2 py-1 bg-red-500 rounded-lg text-white font-medium'
+            type='button'>
             Logout
           </button>
         </Link>
@@ -46,3 +56,11 @@ export default function Account() {
     </PaddingContainer>
   )
 }
+
+/*
+{user?.photoURL}
+{userState?.displayName}
+{user?.email}
+{userState?.metadata.lastSignInTime}
+{userState?.metadata.phoneNumber}
+*/

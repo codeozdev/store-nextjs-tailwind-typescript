@@ -8,36 +8,41 @@ import { useAuth } from '@/context/AuthContext'
 import React, { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { AiFillEyeInvisible, AiFillEye } from 'react-icons/ai'
+import { toast } from 'react-toastify'
+import { auth } from '@/firebase/config'
 
 interface Props {
-  name: string
+  fullName: string
   email: string
   password: string
 }
 
 const defaultForm = {
-  name: '',
+  fullName: '',
   email: '',
   password: '',
 }
 
 export default function LoginPage() {
   const [formField, setFormField] = useState<Props>(defaultForm)
-  const { name, email, password } = formField
+  const { fullName, email, password } = formField
   const [showPassword, setShowPassword] = useState(false)
+
+  const { googleSignIn, user, createUser, updateUserName } = useAuth()
+
+  const router = useRouter()
 
   const resetFormFields = () => {
     setFormField(defaultForm)
   }
 
-  const { googleSignIn, user, createUser } = useAuth()
-  const router = useRouter()
-
   const handleGoogleSignIn = async () => {
     try {
       await googleSignIn()
+      toast.success('Sign in was successful with Google')
+      router.push('/')
     } catch (error) {
-      console.log(error)
+      toast.error('Something went wrong')
     }
   }
 
@@ -46,9 +51,19 @@ export default function LoginPage() {
 
     try {
       await createUser(email, password)
+
+      await updateUserName(fullName)
+      toast.success('Sign in was successful with Email')
+
       resetFormFields()
-    } catch (error) {
-      console.log(error)
+    } catch (error: any) {
+      if (error.code === 'auth/email-already-in-use') {
+        toast.error('email already in use')
+      } else if (error.code === 'auth/weak-password') {
+        toast.error('password should be at least 6 characters')
+      } else {
+        toast.error('Please fill in all fields')
+      }
     }
   }
 
@@ -59,10 +74,12 @@ export default function LoginPage() {
   }
 
   useEffect(() => {
-    if (user != null) {
-      router.push('/account')
+    if (auth.currentUser === null) {
+      router.push('/register')
+    } else {
+      router.push('/')
     }
-  }, [user, router])
+  })
 
   return (
     <PaddingContainer>
@@ -83,9 +100,9 @@ export default function LoginPage() {
                 </label>
                 <div className='mt-2'>
                   <input
-                    name='name'
+                    name='fullName'
+                    value={fullName}
                     type='text'
-                    value={name}
                     required
                     onChange={handleChange}
                     className='block w-full rounded-md border-0 py-1.5 px-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 outline-none'
@@ -141,7 +158,7 @@ export default function LoginPage() {
                 <button
                   type='submit'
                   className='flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600'>
-                  Sign in
+                  Sign Up
                 </button>
               </div>
             </form>

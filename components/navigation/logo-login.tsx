@@ -8,9 +8,11 @@ import { AiOutlineUser, AiOutlineHeart } from 'react-icons/ai'
 import { SlBasket } from 'react-icons/sl'
 
 import { useAuth } from '@/context/AuthContext'
+import { ToastContainer } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
 
 export default function LogoLogin() {
-  const { user, logout } = useAuth()
+  const { user } = useAuth()
 
   return (
     <PaddingContainer>
@@ -42,6 +44,18 @@ export default function LogoLogin() {
           </li>
         </ul>
       </div>
+      <ToastContainer
+        position='bottom-center'
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme='light'
+      />
     </PaddingContainer>
   )
 }

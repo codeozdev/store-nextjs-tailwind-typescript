@@ -9,6 +9,7 @@ import React, { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 import { AiFillEyeInvisible, AiFillEye } from 'react-icons/ai'
+import { toast } from 'react-toastify'
 
 interface Props {
   email: string
@@ -29,14 +30,16 @@ export default function Giris() {
     setFormField(defaultForm)
   }
 
-  const { googleSignIn, user, createUser } = useAuth()
+  const { googleSignIn, user, signIn } = useAuth()
   const router = useRouter()
 
   const handleGoogleSignIn = async () => {
     try {
       await googleSignIn()
+      toast.success('Sign in was successful with Google')
+      router.push('/')
     } catch (error) {
-      console.log(error)
+      toast.error('Something went wrong')
     }
   }
 
@@ -44,10 +47,18 @@ export default function Giris() {
     e.preventDefault()
 
     try {
-      await createUser(email, password)
+      await signIn(email, password)
       resetFormFields()
-    } catch (error) {
-      console.log(error)
+      toast.success('Sign in was successful with Email')
+      router.push('/')
+    } catch (error: any) {
+      if (error.code === 'auth/wrong-password') {
+        toast.error('Wrong password')
+      } else if (error.code === 'auth/user-not-found') {
+        toast.error('User not found')
+      } else {
+        toast.error('Something went wrong')
+      }
     }
   }
 
@@ -58,10 +69,16 @@ export default function Giris() {
   }
 
   useEffect(() => {
-    if (user != null) {
-      router.push('/account')
+    if (!user === null) {
+      router.push('/')
     }
-  }, [user, router])
+  })
+
+  // useEffect(() => {
+  //   if (user != null) {
+  //     router.push('/account')
+  //   }
+  // }, [user, router])
 
   return (
     <PaddingContainer>
