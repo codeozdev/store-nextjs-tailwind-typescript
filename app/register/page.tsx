@@ -7,22 +7,23 @@ import { AiFillFacebook, AiFillGoogleCircle } from 'react-icons/ai'
 import { useAuth } from '@/context/AuthContext'
 import React, { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
-import Link from 'next/link'
 import { AiFillEyeInvisible, AiFillEye } from 'react-icons/ai'
 
 interface Props {
+  name: string
   email: string
   password: string
 }
 
 const defaultForm = {
+  name: '',
   email: '',
   password: '',
 }
 
-export default function Giris() {
+export default function LoginPage() {
   const [formField, setFormField] = useState<Props>(defaultForm)
-  const { email, password } = formField
+  const { name, email, password } = formField
   const [showPassword, setShowPassword] = useState(false)
 
   const resetFormFields = () => {
@@ -78,6 +79,19 @@ export default function Giris() {
             <form className='space-y-6' onSubmit={handleSbutmit}>
               <div>
                 <label htmlFor='email' className='block text-sm font-medium leading-6 text-gray-900'>
+                  Full Name
+                </label>
+                <div className='mt-2'>
+                  <input
+                    name='name'
+                    type='text'
+                    value={name}
+                    required
+                    onChange={handleChange}
+                    className='block w-full rounded-md border-0 py-1.5 px-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 outline-none'
+                  />
+                </div>
+                <label htmlFor='email' className='block text-sm font-medium leading-6 text-gray-900'>
                   Email address
                 </label>
                 <div className='mt-2'>
@@ -92,7 +106,7 @@ export default function Giris() {
                 </div>
               </div>
 
-              <div className='relative'>
+              <div>
                 <div className='flex items-center justify-between'>
                   <label htmlFor='password' className='block text-sm font-medium leading-6 text-gray-900'>
                     Password
@@ -103,7 +117,7 @@ export default function Giris() {
                     </a>
                   </div>
                 </div>
-                <div className='mt-2'>
+                <div className='mt-2 relative'>
                   <input
                     name='password'
                     type={showPassword ? 'text' : 'password'}
@@ -114,11 +128,11 @@ export default function Giris() {
                   />
                   {showPassword ? (
                     <AiFillEyeInvisible
-                      className='absolute right-2 top-11'
+                      className='absolute right-2 top-3'
                       onClick={() => setShowPassword(!showPassword)}
                     />
                   ) : (
-                    <AiFillEye className='absolute right-2 top-11' onClick={() => setShowPassword(!showPassword)} />
+                    <AiFillEye className='absolute right-2 top-3' onClick={() => setShowPassword(!showPassword)} />
                   )}
                 </div>
               </div>
@@ -129,9 +143,6 @@ export default function Giris() {
                   className='flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600'>
                   Sign in
                 </button>
-                <p className='text-center mt-5 font-bold text-red-500'>
-                  <Link href='/register'>Register</Link>
-                </p>
               </div>
             </form>
 
