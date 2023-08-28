@@ -10,6 +10,7 @@ import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 import { AiFillEyeInvisible, AiFillEye } from 'react-icons/ai'
 import { toast } from 'react-toastify'
+import { auth } from '@/firebase/config'
 
 interface Props {
   email: string
@@ -36,6 +37,7 @@ export default function Giris() {
   const handleGoogleSignIn = async () => {
     try {
       await googleSignIn()
+
       toast.success('Sign in was successful with Google')
       router.push('/')
     } catch (error) {
@@ -74,12 +76,6 @@ export default function Giris() {
     }
   })
 
-  // useEffect(() => {
-  //   if (user != null) {
-  //     router.push('/account')
-  //   }
-  // }, [user, router])
-
   return (
     <PaddingContainer>
       <>
@@ -115,9 +111,9 @@ export default function Giris() {
                     Password
                   </label>
                   <div className='text-sm'>
-                    <a href='#' className='font-semibold text-indigo-600 hover:text-indigo-500'>
+                    <Link href='/forgot-password' className='font-semibold text-indigo-600 hover:text-indigo-500'>
                       Forgot password?
-                    </a>
+                    </Link>
                   </div>
                 </div>
                 <div className='mt-2'>

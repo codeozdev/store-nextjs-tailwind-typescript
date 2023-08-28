@@ -10,6 +10,7 @@ import { useRouter } from 'next/navigation'
 import { AiFillEyeInvisible, AiFillEye } from 'react-icons/ai'
 import { toast } from 'react-toastify'
 import { auth } from '@/firebase/config'
+import Link from 'next/link'
 
 interface Props {
   fullName: string
@@ -28,7 +29,7 @@ export default function LoginPage() {
   const { fullName, email, password } = formField
   const [showPassword, setShowPassword] = useState(false)
 
-  const { googleSignIn, user, createUser, updateUserName } = useAuth()
+  const { googleSignIn, createUser, updateUserName } = useAuth()
 
   const router = useRouter()
 
@@ -88,7 +89,7 @@ export default function LoginPage() {
           <div className='sm:mx-auto sm:w-full sm:max-w-sm'>
             <Image className='mx-auto h-10 w-auto' src='/logo.png' width={200} height={200} alt='Your Company' />
             <h2 className='mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900'>
-              Sign in to your account
+              Sign Up
             </h2>
           </div>
 
@@ -129,9 +130,9 @@ export default function LoginPage() {
                     Password
                   </label>
                   <div className='text-sm'>
-                    <a href='#' className='font-semibold text-indigo-600 hover:text-indigo-500'>
+                    <Link href='/forgot-password' className='font-semibold text-indigo-600 hover:text-indigo-500'>
                       Forgot password?
-                    </a>
+                    </Link>
                   </div>
                 </div>
                 <div className='mt-2 relative'>

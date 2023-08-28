@@ -37,7 +37,7 @@ export default function LogoLogin() {
             )}
           </li>
           <li>
-            <Link href='/sepetim' className='flex items-center gap-2  hover:text-red-600'>
+            <Link href='#' className='flex items-center gap-2  hover:text-red-600'>
               <SlBasket />
               <p className='text-sm font-medium hidden md:block'>Sepetim</p>
             </Link>

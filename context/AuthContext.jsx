@@ -9,6 +9,7 @@ import {
   updateProfile,
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
+  sendPasswordResetEmail,
 } from 'firebase/auth'
 import { auth } from '@/firebase/config'
 
@@ -47,13 +48,16 @@ export const AuthContextProvider = ({ children }) => {
 
   const logout = () => signOut(auth)
 
+  const resetPassword = async (email) => {
+    if (!email) return
+    await sendPasswordResetEmail(auth, email)
+  }
+
   return (
-    <AuthContext.Provider value={{ googleSignIn, logout, user, createUser, signIn, updateUserName }}>
+    <AuthContext.Provider value={{ googleSignIn, logout, user, createUser, signIn, updateUserName, resetPassword }}>
       {children}
     </AuthContext.Provider>
   )
 }
 
 export const useAuth = () => useContext(AuthContext)
-
-//Uyelik sayfasi ve firestore baglantisi yapilacak
