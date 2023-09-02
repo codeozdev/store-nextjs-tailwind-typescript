@@ -6,6 +6,7 @@ import Link from 'next/link'
 import { useEffect } from 'react'
 import { toast } from 'react-toastify'
 import { useRouter } from 'next/navigation'
+import Image from 'next/image'
 
 export default function Account() {
   const { user, logout } = useAuth()
@@ -30,7 +31,13 @@ export default function Account() {
     <PaddingContainer>
       <div className='flex flex-col w-full items-center mt-40 space-y-5'>
         <div className='flex flex-col items-center gap-4'>
-          <img src={user?.photoURL} className='rounded-lg' alt='foto' />
+          <Image
+            src={user?.photoURL}
+            className='rounded-lg'
+            alt='foto'
+            width={100}
+            height={100}
+          />
           <h1 className='font-bold text-4xl'>Welcome, {user?.displayName}</h1>
         </div>
         <div>
@@ -38,10 +45,12 @@ export default function Account() {
             Email: <span className='text-black'>{user?.email}</span>
           </p>
           <p className='font-semibold text-red-500'>
-            Last Login: <span className='text-black'>{user?.metadata.lastSignInTime}</span>
+            Last Login:{' '}
+            <span className='text-black'>{user?.metadata.lastSignInTime}</span>
           </p>
           <p className='font-semibold text-red-500'>
-            Phone: <span className='text-black'>{user?.metadata.phoneNumber}</span>
+            Phone:{' '}
+            <span className='text-black'>{user?.metadata.phoneNumber}</span>
           </p>
         </div>
         <Link href='/'>
